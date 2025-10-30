@@ -33,7 +33,13 @@ jobs:
       run: |
         curl -L -o frp.zip https://github.com/fatedier/frp/releases/download/v0.52.3/frp_0.52.3_windows_amd64.zip
         tar -xf frp.zip
-        echo "✅ FRP downloaded"
+        
+        # The archive extracts into a versioned folder (e.g., frp_0.52.3_windows_amd64).
+        # We find that folder and rename it to 'frp' so subsequent steps work correctly.
+        $extractedDir = Get-ChildItem -Path . -Directory -Filter "frp_*" | Select-Object -First 1
+        Rename-Item -Path $extractedDir.FullName -NewName "frp"
+        
+        echo "✅ FRP downloaded and prepared in 'frp' directory"
 
     - name: Create FRP Configuration
       run: |
