@@ -77,14 +77,10 @@ jobs:
         Start-Sleep -Seconds 60
         echo "✅ Tunnel should be active now"
 
-    - name: Simple Session Maintenance
+    - name: Keep Session Alive
       run: |
-        echo "RDP session active for 6 hours..."
-        for i in {1..350}; do
-          if [ $((i % 10)) -eq 0 ]; then
-            hours=$(echo "scale=1; $i/60" | bc)
-            echo "Active: $i minutes ($hours hours)"
-          fi
-          sleep 60
-        done
-        echo "Session complete"
+        Write-Host "⏳ Session Active - Keeping alive..."
+        while ($true) {
+          Start-Sleep -Seconds 60
+          Write-Host "✓ Active - $(Get-Date -Format 'HH:mm:ss')"
+        }
