@@ -31,7 +31,8 @@ jobs:
           Write-Host ""
           Start-Process -NoNewWindow PowerShell -ArgumentList '-Command "cloudflared tunnel --url tcp://localhost:3389 > tunnel.log 2>&1"'
           Start-Sleep -Seconds 15
-          Get-Content tunnel.log | Select-String -Pattern 'https://[^[:space:]]*trycloudflare.com' | ForEach-Object { $_.Matches.Value }
+          $tunnelUrl = (Get-Content tunnel.log | Select-String -Pattern 'https://[^[:space:]]*trycloudflare.com').Matches.Value
+          Write-Host "Your Cloudflare Tunnel URL is: $tunnelUrl"
           Start-Sleep -Seconds 5
           Write-Host ""
           Write-Host "✅ TUNNEL STARTED! Check separate PowerShell window for URL"
